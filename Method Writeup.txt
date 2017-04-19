@@ -1,0 +1,168 @@
+#Method
+
+1) sort 2MASS catalogue 
+	a) seperate into 15x15 degree patches of sky.
+	b) in each patch sort into magnitude bins (<-3,>17, and every 1 magnitude in between)
+
+
+following done for each patch of sky individually
+
+-------------------------------------------------------------FAST METHOD-------------------------------------------------------------------------------
+2) construct Sky grid
+	a) define parameters:
+		- bins size of 1x1 degree
+		- isoplanatic angle of 10 arcseconds (note, isoplanatic angle is half the length of the diagonal)
+		- limiting magnitude of 15 in J-band
+	b) determine the size of each individual cell (before rescaling RA)
+		- isoplantic angle is taken to be half the length of the diagonal of a square cell
+		- therefore: s = theta_0 / (2)^(1/2) where s is side length
+	c) calculate declination and right asscension edges of bins
+		- every 1.0 degree of DEC and RA in patch of sky (including endpoints)
+	d) calculate length of 1 degree of RA at each DEC bin 
+		- length = cos(DEC)
+		- take the maximal value at each end points (avoids cos(DEC)=0 at DEC=+-90 degrees)
+	e) determine number of cells in 15 degrees of RA at each DEC bin
+		- N = (# of cells per bin ) * (# of bins) 
+		- (# of bins) = (patch size) / ( RA bin size)
+		- (# of cells per bin) = floor( (RA bins size) / ( s / length ) ) +1    where "s" is the side length of the cells determined in b)
+			* floor ensures that there is an interger # of cells per bin
+			* (s / length) rescales RA to account for differing lengths of 1 degree of RA at differing DECs
+			* +1 ensures that there is at least 1 cell
+	f) determine the actual length of each cell in RA (i.e. after rescaling)
+		- L_cells = (size of patch) / [ floor ( (# of RA cells) / (# of RA bins) ) * (# of RA bins) ]
+		- floor ( (# of RA cells) / (# of RA bins) ) is done so there is always an integer # of cells per bin
+	g) create matrix of booleans (all initially false) for each bin
+		- # of cells vertically (in DEC) given by floor( (DEC bin size) / s )      where "s" is the side length of the cells determined in b)
+			* floor() ensures that there is an integer # of cells (size "s" will likely be irrational)
+		- # of cells horizontally (in RA) given by  N / (# of bins)      where N was determined in e)
+
+	*****NOTE: steps d-f are done seperately for each set of bins at the same DEC, and step g) was done seperately for each individual bin *****
+
+3) Populate Sky Grid
+		
+	NOTE: the following is done seperately for each magnitude bin in the 2MASS catalogue (up to but not including the limiting magnitude)
+
+	a) load each file as array
+		- each line contains RA, DEC, and J-Band Magnitude for each star (in that part of the sky with that range of magnitudes)
+		- if the file is empty continue on to the next one
+	b) determine which bin every star is in
+		- y = floor ( (DEC - d) / (DEC bin size) )
+			* y is the id of the DEC bin
+			* DEC is the declination of the star
+			* d is the smallest declination of the patch of sky (i.e. at the smaller edge)
+		- x = floor ( (RA - a) / (RA bin size) )
+			* x is the id of the RA bin
+			* RA is the right ascension of the star
+			* a is the smallest right ascension of the patch of sky (i.e. at the smaller edge)
+		- floor is used as the id is given by the smaller edge of the bin
+	c) determine the actual length in declination of each cell
+		- D_length = (size of declination bin ) / floor( (size of declination bin) / s )    where "s" is the side length of the cells determined in 2b)
+		- floor is used as there must be an integer number of cells in each bin
+		- this step must be done as D_length is changed above in 2g) (due to above) when setting up the matrix, and is no longer just "s"
+	d) determine the id of the cell that each star is in (regardless of its bin)
+		- dec2 = floor ( (DEC - d) / (D_length) ) 
+		- ra2 = floor ( (RA - a) / (L_cells) )
+			* d,a,DEC,RA is same as in part b)
+		- ids must be integers, starting at 0, so "floor" is used
+	e) determine the cell in its bin that each star is in
+		- dec = dec2 - (total # of cells in all previous DEC bins)
+		- ra = ra2 - (total # of cells in all previous RA bins)
+		- (total # of cells in all previous DEC bins) = y*(# of DEC cells per bin)
+		- (total # of cells in all previous RA bins) = x*(# of RA cells per bin)
+			* x,y given in part b)
+		- (# of DEC cells per bin) = floor ( (size of DEC bin) / s )
+		- (# of RA cells per bin) = floor ( (size of RA bin) / L_cells )
+			* L_cells given in part 2f)
+		- floor is used as there must be an integer number of cells in each bin
+	  **NOTE: part e) differs from d) in that part d) counts starting at the beginning of the patch of sky, while part e) counts starting at the beginning of the bin**
+	f) set the value of the cell in the matrix containing each star to "True"
+
+      ****NOTE steps b-f are done concurrently for EVERY star in the file
+
+---------------------------------------------------END OF FAST METHOD------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------SLOW METHOD----------------------------------------------------------------------------------------------------------
+2) 2) construct Sky grid
+	a) define parameters:
+		- bins size of 1x1 degree
+		- isoplanatic angle of 10 arcseconds (note, isoplanatic angle is half the length of the diagonal)
+		- limiting magnitude of 15 in J-band
+	b) determine the size of each individual cell (before rescaling RA)
+		- isoplantic angle is taken to be half the length of the diagonal of a square cell
+		- therefore: s = theta_0 / (2)^(1/2) where s is side length
+	c) calculate declination edges of bins, and edges of cells
+		- bin edges every 1.0 degree of DEC in patch of sky (including endpoints)
+		- cell edges every (DEC bin size) / floor( (DEC bin size)/ s ) degrees of DEC in patch of sky (including endpoints)
+			* floor( (DEC bin size)/ s ) ensures there are always an integer number of cells per bin
+	d) calculate length of 1 degree of RA at each DEC bin 
+		- length = cos(DEC)
+		- take the maximal value at each end points (avoids cos(DEC)=0 at DEC=+-90 degrees)
+	e) determine number of cells in 15 degrees of RA at each DEC bin
+		- N = (# of cells per bin ) * (# of bins) 
+		- (# of bins) = (patch size) / ( RA bin size)
+		- (# of cells per bin) = floor( (RA bins size) / ( s / length ) ) +1    where "s" is the side length of the cells determined in b)
+			* floor ensures that there is an interger # of cells per bin
+			* (s / length) rescales RA to account for differing lengths of 1 degree of RA at differing DECs
+			* +1 ensures that there is at least 1 cell
+	f) determine right ascension edges of cells
+		- N+1 evenly spaced cell edges in patch of sky (including endpoints)
+	g) create matrix of booleans (all initially false) for each bin
+		- # of cells vertically (in DEC) given by floor( (DEC bin size) / s )      where "s" is the side length of the cells determined in b)
+			* floor() ensures that there is an integer # of cells (size "s" will likely be irrational)
+		- # of cells horizontally (in RA) given by  N / (# of bins)      where N was determined in e)
+
+	*****NOTE: steps d-f are done seperately for each set of bins at the same DEC, and step g) was done seperately for each individual bin *****
+
+3) Populate Sky Grid
+		
+	NOTE: the following is done seperately for each magnitude bin in the 2MASS catalogue (up to but not including the limiting magnitude)
+
+	a) load each file as array
+		- each line contains RA, DEC, and J-Band Magnitude for each star (in that part of the sky with that range of magnitudes)
+		- if the file is empty continue on to the next one
+	b) determine which bin the star is in
+		- y = floor ( (DEC - d) / (DEC bin size) )
+			* y is the id of the DEC bin
+			* DEC is the declination of the star
+			* d is the smallest declination of the patch of sky (i.e. at the smaller edge)
+		- x = floor ( (RA - a) / (RA bin size) )
+			* x is the id of the RA bin
+			* RA is the right ascension of the star
+			* a is the smallest right ascension of the patch of sky (i.e. at the smaller edge)
+		- floor is used as the id is given by the smaller edge of the bin
+	c) determine the id of the cell that each star is in (regardless of its bin)
+		- dec2 is id of largest cell edge that is <= to DEC of star 
+		- ra2 is id of largest cell edge that is <= to RA of star 
+	d) determine the cell in its bin that each star is in
+		- dec = dec2 - (total # of cells in all previous DEC bins)
+		- ra = ra2 - (total # of cells in all previous RA bins)
+		- (total # of cells in all previous DEC bins) = y*(# of DEC  cells in bin containing star)
+		- (total # of cells in all previous RA bins) = x*(# of RA cells in bin containing star)
+			* x,y given in part b)
+		- (# of DEC  cells in bin containing star) and (# of RA cells in bin containing star) are given by the size of the bin containing the star
+
+	  **NOTE: part d) differs from c) in that part c) counts starting at the beginning of the patch of sky, while part d) counts starting at the beginning of the bin**
+	e) set the value of the cell in the matrix containing the star to "True"
+
+      ****NOTE steps b-f are done seperately for every star in the file (i.e., the stars are looped through)
+------------------------------------------------------------------END OF SLOW METHOD---------------------------------------------------------------------------------------
+
+4)Determine Sky coverage in Each Bin
+	Note: the following is done seperately for each bin (i.e, the bins are looped through)
+	a) sky coverage is given by: (# of cells in the bin marked "True") / (Total # of cells in the bin)
+
+5)Reconstruct Full Sky coverage
+	a) create a matrix of the entire sky will cells the size of each bin (i.e., 1x1 degree)
+		- so sky is a 360x180 matrix
+	b) load in the sky coverage of each patch of sky
+		- each file is a (patch size)/(RA bin size) x (patch size)/(DEC bin size) (i.e. 15x15) grid of floats
+		- each float is the sky coverage in that bin 
+	c) place the values of the sky coverage in each patch at the appropriate place in the large matrix
+		- so each bin starts at (15*r,15*d) where r is the RA id of the patch (from 0 to 360/15) and d is the DEC id of the patch (from 0 to 180/15)
+
+6)Plot a heatmap of the Sky coverage of the entire sky
+
+
+
+
+

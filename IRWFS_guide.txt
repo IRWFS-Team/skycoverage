@@ -1,0 +1,108 @@
+How to run the IRWFS code
+
+
+Step 1: Download 2MASS point source catalogue into 1 folder
+	-downloaded filed should be in folder labelled "2MASS"
+
+
+Step 2: Sort databse
+	sort_cat_loc.py
+		- sorts for "slow" method outlined in "Method Writeup.txt"
+		- set parameter: "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. 
+		  MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+		- This file should be stored in a folder labeled "sorted2" which is inside the "2MASS"  folder (i.e. filepath is "2MASS/sorted2/sort_cat_loc.py")
+		- by default sorts by J-band magnitude. to sort by other band magnitude, comment out the J-band related lines (located in 3 places: when creating files, when determining brightness, and when sorting)
+	sort_cat_loc2.py
+		- sorts for "fast" method outlined in "Method Writeup.txt"
+		- set parameter "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. 
+		  MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+		- This file should be stored in a folder labeled "sorted3" which is inside another labeled "2MASS" (i.e. filepath is "2MASS/sorted3/sort_cat_loc2.py")
+		- by default sorts by J-band magnitude. to sort by other band magnitude, comment out the J-band related lines (located in 3 places: when creating files, when determining brightness, and when sorting)
+
+
+Step 3: determine sky visibility
+	corrected_grid_search2.py
+		- determines the fraction of sky observable using the "slow" method outlined in "Method Writeup.txt"
+		- set parameters: "M_min" to the Limiting magnitude of the WFS (int)
+				  "band" to the Wavelength Band of the WFS (String)
+				  "theta_0" to the isoplanetic angle IN DEGREES of the WFS (float)
+				  "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+				  "xbinsize" to the size of RA bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+				  "ybinsize" to the size of DEC bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+		- this file should be stored in a folder that is in the same directory as the "2MASS" folder from Step 2 (i.e. filepath is folderA/folderB/corrected_grid_search2.py, whereas the filepath of the sorted catalogue is folderA/2MASS/sorted2/)
+	corrected_grid_search3.py
+		- determines the fraction of sky observable using the "fast" method outlined in "Method Writeup.txt"
+		- set parameters: "M_min" to the Limiting magnitude of the WFS (int)
+				  "band" to the Wavelength Band of the WFS (String)
+				  "theta_0" to the isoplanetic angle IN DEGREES of the WFS (float)
+				  "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+				  "xbinsize" to the size of RA bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+				  "ybinsize" to the size of DEC bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+		- this file should be stored in a folder that is in the same directory as the "2MASS" folder from Step 2 (i.e. filepath is folderA/folderB/corrected_grid_search3.py, whereas the filepath of the sorted catalogue is folderA/2MASS/sorted3/)
+
+
+Step 4a: Download "Globular_Clusters.txt" file
+		- should be stored in the same folder as corrected_grid_search2.py
+Step 4b: Create the Large Plot and (optional) plots the position of Globular Clusters.
+	large_plot.py
+		- combines the data from all the different patches of sky into 1 image.
+		- set parameters: "M_min" to the Limiting magnitude of the WFS (int)
+				  "band" to the Wavelength Band of the WFS (String)
+				  "theta_0" to the isoplanetic angle IN ARCSECONDS of the WFS (string)
+				  "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+				  "xbinsize" to the size of RA bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+				  "ybinsize" to the size of DEC bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+		- To plot the location of Globular Clusters, uncomment the following lines:
+				  plt.plot((ras1-0.5)/360.*len(matrix[:,0]),(decs1+89.5)/180.*len(matrix[0]),"k.")
+				  plt.plot((ras2-0.5)/360.*len(matrix[:,0]),(decs2+89.5)/180.*len(matrix[0]),".",color=(0.5,0.5,0.5))
+		- (Optional) To save a fits file, uncommment several lines in the plotting section
+		- this code should be saved in the same folder as steps 3 and 4a
+
+Step 5a: Optical Comaprison Prelude
+	zoom_in.py
+		- produces a zoomed in plot of a single bin using the 2MASS database.
+		- set parameters: "M_min" to the Limiting magnitude of the WFS (int)
+				  "band" to the Wavelength Band of the WFS (String)
+				  "theta_0" to the isoplanetic angle IN ARCSECONDS of the WFS (string)
+				  "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+				  "xbinsize" to the size of RA bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+				  "ybinsize" to the size of DEC bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+		- set variable "zoom" to [DEC,RA], the "lower left" (smaller DEC, smaller RA) coordinates of the bin.
+		- set flag "plot_coords" to "False"
+		- this code should be stored in the same location as steps 3 and 4
+	optical_comparison.py
+		- produces a zoomed in plot of a single bin for optical data (MUST BE PROVIDED)
+		- requires optical data for a single bin in the form of "#objID,ra,dec,g,r" where "g" and "r" are the g-band and r-band magnitudes. 
+		- set variable "filename" to the filepath from the code to the file containing optical data (i.e. "comparison/optical.txt", where the file "optical.txt" is contained in the folder "comparison", which is itself located in the folder "folderB")
+		- set parameters: "M_min" to the Limiting magnitude of the WFS (int)
+				  "band" to the Wavelength Band of the WFS (String)
+				  "theta_0" to the isoplanetic angle IN ARCSECONDS of the WFS (string)
+				  "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+				  "xbinsize" to the size of RA bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+				  "ybinsize" to the size of DEC bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+		- set variable "zoom" to [DEC,RA], the "lower left" (smaller DEC, smaller RA) coordinates of the bin.
+		- the code should be stored in the same folder as steps 3 and 4.
+
+Step 5b: Optical Comparison
+	IR_O_comparison.py
+		- produces combined plots of optical and IR bins.
+		- set variables: "titles" to a list of tiles for the bins.
+				 "zoom" to a list of [DEC,RA] the the "lower left" (smaller DEC, smaller RA) coordinates of the bins.
+				 "N" to the number of such bins (or the number you wish to plot)
+		- NOTE: the code does not save plots. To save them, uncomment the line: "plt.savefig("comparison/"+titles[i]+".png")"
+		- code should be saved in the same folder as steps 3-5a.
+
+
+Step 6: Cluster Zooms:
+	Globular_Clusters.py
+		- produces plots of zoomed in regions where the Globular Clusters in the Milky way should be located. 
+		- requires file "Globular_Clusters.txt"
+		- set parameters: "M_min" to the Limiting magnitude of the WFS (int)
+				  "band" to the Wavelength Band of the WFS (String)
+				  "theta_0" to the isoplanetic angle IN ARCSECONDS of the WFS (string)
+				  "breakdown" to the size (degrees RA by degrees DEC) of each patch of sky to be considered individually. MUST DIVIDE INTO 180 WITH 0 REMAINDER!!! 
+				  "xbinsize" to the size of RA bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+				  "ybinsize" to the size of DEC bin in degrees. MUST DIVIDE INTO "breakdown" WITH 0 REMAINDER!!! 
+		- code should be stored in the same file as in steps 3-5 
+		
+	 	

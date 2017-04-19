@@ -1,0 +1,104 @@
+      Input Object Name       	     RA     	    Dec       Visible	
+                              	  J2000.0   	  J2000.0    
+M2                            	21h33m27.01s	-00d49m23.9s	y
+M3                            	13h42m11.23s	+28d22m31.6s	y
+M4                            	16h23m35.40s	-26d31m31.9s	y
+M5                            	15h18m33.75s	+02d04m57.7s	y
+M9                            	17h19m11.78s	-18d30m58.5s	y
+M10                           	16h57m08.99s	-04d05m57.6s	y
+M12                           	16h47m14.52s	-01d56m52.2s	y
+M13                           	16h41m41.63s	+36d27m40.7s	y
+M14                           	17h37m36.16s	-03d14m45.3s	y
+M15                           	21h29m58.38s	+12d10m00.6s	y
+M19                           	17h02m37.68s	-26d16m04.6s	y
+M22                           	18h36m24.20s	-23d54m12.3s	y
+M28                           	18h24m32.89s	-24d52m11.4s	y
+M30                           	21h40m22.02s	-23d10m44.7s	y
+M53                           	13h12m55.23s	+18d10m08.8s	y
+M55                           	19h39m59.40s	-30d57m43.5s	y
+M56                           	19h16m35.51s	+30d11m04.2s	y
+M62                           	17h01m12.60s	-30d06m44.5s	y
+M68                           	12h39m28.01s	-26d44m34.9s	y
+M69                           	18h31m23.23s	-32d20m52.7s	y
+M70                           	18h43m12.64s	-32d17m30.8s	y
+M71                           	19h53m46.11s	+18d46m42.2s	y
+M72                           	20h53m27.91s	-12d32m13.4s	y
+M75                           	20h06m04.84s	-21d55m20.0s	y
+M79                           	05h24m10.59s	-24d31m27.2s	y
+M80                           	16h17m02.51s	-22d58m30.4s	y
+M92                           	17h17m07.27s	+43d08m11.5s	y
+M107                          	16h32m31.92s	-13d03m13.1s	y
+NGC104                        	00h24m05.36s	-72d04m53.2s	y
+NGC 288                       	00h52m47.45s	-26d35m23.6s	y
+NGC 362                       	01h03m14.23s	-70d50m53.6s	y
+NGC 1261                      	03h12m15.34s	-55d13m00.5s	y
+NGC 1851                      	05h14m06.73s	-40d02m47.8s	y
+NGC 2298                      	06h48m59.20s	-36d00m19.1s	y
+NGC 2419                      	07h38m07.95s	+38d52m47.9s	n
+NGC 2808                      	09h12m02.54s	-64d51m46.2s	y
+NGC 3201                      	10h17m36.76s	-46d24m40.4s	y
+NGC 4147                      	12h10m06.17s	+18d32m31.7s	y
+NGC 4372                      	12h25m45.38s	-72d39m32.7s	y
+NGC 4833                      	12h59m34.94s	-70d52m28.5s	y
+NGC 5053                      	13h16m26.99s	+17d41m51.9s	n
+NGC5139                       	13h26m45.89s	-47d28m36.7s	y
+NGC 5286                      	13h46m26.58s	-51d22m24.5s	y
+NGC 5466                      	14h05m27.36s	+28d32m04.2s	n
+NGC 5634                      	14h29m37.28s	-05d58m35.1s	y
+NGC 5694                      	14h39m36.51s	-26d32m18.0s	y
+NGC 5824                      	15h03m58.64s	-33d04m05.3s	y
+NGC 5897                      	15h17m24.40s	-21d00m36.4s	y
+NGC 5927                      	15h28m00.43s	-50d40m22.0s	y
+NGC 5946                      	15h35m28.57s	-50d39m35.0s	y
+NGC 5986                      	15h46m03.44s	-37d47m10.1s	y
+NGC 6101                      	16h25m48.57s	-72d12m05.6s	y
+NGC 6144                      	16h27m14.14s	-26d01m29.0s	y
+NGC 6139                      	16h27m40.51s	-38d50m59.1s	y
+NGC 6229                      	16h46m58.86s	+47d31m40.1s	y
+NGC 6235                      	16h53m25.36s	-22d10m38.8s	y
+NGC 6256                      	16h59m32.69s	-37d07m17.1s	y
+NGC 6284                      	17h04m28.75s	-24d45m51.6s	y
+NGC 6287                      	17h05m09.34s	-22d42m28.8s	y
+NGC 6293                      	17h10m10.41s	-26d34m54.3s	y
+NGC 6304                      	17h14m32.51s	-29d27m44.2s	n
+NGC 6316                      	17h16m37.41s	-28d08m24.1s	n
+NGC 6325                      	17h17m59.27s	-23d45m57.7s	y
+NGC 6342                      	17h21m10.14s	-19d35m14.7s	y
+NGC 6356                      	17h23m34.99s	-17d48m46.9s	y
+NGC 6355                      	17h23m58.65s	-26d21m12.3s	n
+NGC 6352                      	17h25m29.16s	-48d25m21.7s	y
+NGC 6362                      	17h31m54.84s	-67d02m52.3s	y
+NGC 6366                      	17h27m44.33s	-05d04m35.9s	y
+NGC 6380                      	17h34m28.42s	-39d04m10.8s	y
+NGC 6388                      	17h36m17.43s	-44d44m08.2s	y
+NGC 6397                      	17h40m41.36s	-53d40m25.3s	y
+NGC 6401                      	17h38m36.93s	-23d54m31.6s	n
+NGC 6426                      	17h44m54.71s	+03d10m12.5s	n
+NGC 6440                      	17h48m52.67s	-20d21m34.5s	n
+NGC 6441                      	17h50m12.84s	-37d03m03.9s	n
+NGC 6453                      	17h50m51.71s	-34d35m59.6s	n
+NGC 6496                      	17h59m03.70s	-44d15m58.7s	y
+NGC 6517                      	18h01m50.39s	-08d57m34.2s	y
+NGC 6522                      	18h03m34.07s	-30d02m02.3s	n
+NGC 6528                      	18h04m49.61s	-30d03m20.8s	n
+NGC 6535                      	18h03m50.69s	-00d17m48.9s	n
+NGC 6539                      	18h04m49.75s	-07d35m09.1s	y
+NGC 6540                      	18h06m07.95s	-27d45m46.1s	n
+NGC 6541                      	18h08m02.33s	-43d42m57.2s	y
+NGC 6544                      	18h07m20.00s	-24d59m54.1s	n
+NGC 6553                      	18h09m17.48s	-25d54m28.3s	n
+NGC 6558                      	18h10m18.38s	-31d45m48.5s	n
+NGC 6569                      	18h13m38.67s	-31d49m39.6s	y
+NGC 6584                      	18h18m37.65s	-52d12m54.6s	y
+NGC 6624                      	18h23m40.57s	-30d21m40.6s	y
+NGC 6638                      	18h30m56.25s	-25d29m47.1s	y
+NGC 6642                      	18h31m54.22s	-23d28m34.1s	y
+NGC 6652                      	18h35m45.75s	-32d59m25.1s	y
+NGC 6712                      	18h53m04.89s	-08d42m19.7s	y
+NGC 6717                      	18h55m06.04s	-22d42m05.8s	n
+NGC 6723                      	18h59m33.15s	-36d37m53.3s	y
+NGC 6749                      	19h05m15.60s	+01d54m02.2s	y
+NGC 6752                      	19h10m51.78s	-59d58m54.7s	y
+NGC 6760                      	19h11m12.06s	+01d01m49.7s	y
+NGC 6934                      	20h34m11.49s	+07d24m14.8s	y
+NGC 7006                      	21h01m29.25s	+16d11m15.1s	y
